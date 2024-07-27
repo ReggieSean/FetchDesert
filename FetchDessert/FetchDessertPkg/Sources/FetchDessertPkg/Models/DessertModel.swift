@@ -7,7 +7,9 @@
 
 import Foundation
 
-final class DessertModel{
+
+//DesertModel for holding meal information
+struct DessertModel{
     let mealName : String
     let Instructions: String
     let Ingredients: String
