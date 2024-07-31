@@ -26,14 +26,21 @@ struct DessertBlock: View {
             ScrollView{
                 HStack{
                     ForEach(desserts, id: \.mealName){ dessert in
-                        ZStack{
-                            RoundedRectangle(cornerSize: CGSize(width: 20, height: 20)).frame(width: 150,height: 150).opacity(0.5).foregroundStyle(Color.yellow)
+                        ZStack(alignment: .center){
+                            RoundedRectangle(cornerSize: CGSize(width: 20, height: 20)).frame(width: 150,height: 150).opacity(1).foregroundStyle(Color.yellow)
                                 
-                            dessert.image!.resizable().scaledToFit().frame(width: 100, height:100,alignment: .center).padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                                        
-                            Text("\(dessert.mealName)").padding(EdgeInsets(top:10, leading: 0, bottom: 10, trailing: 0)).multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/).foregroundStyle(Color.white)
+                            dessert.image!.resizable().scaledToFit().frame(width: 150, height:150,alignment: .center).padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                                 
-                            
+                            RoundedRectangle(cornerSize: CGSize(width: 20, height: 20)).frame(width: 150, height: 150).opacity(0).foregroundStyle(Color.red).overlay{
+                                
+                                //halfish icon size overlay title
+                                VStack{
+                                    Spacer()
+                                    RoundedRectangle(cornerSize: CGSize(width: 20, height: 20)).frame(width: 150, height: 80).opacity(0.7).foregroundStyle(Color.gray).overlay{
+                                        Text(" \(dessert.mealName)").foregroundStyle(Color.white).font(.title2).frame(width: 150, height: 80,alignment: .leading).padding(0).clipped()
+                                    }.offset(CGSize(width: 0,height: -15.0)).clipped().offset(CGSize(width: 0,height: 15.0))
+                                }
+                            }
                         }.onTapGesture {
                             print("Dessert: \(dessert.mealName) is tapped")
                         }
@@ -47,4 +54,13 @@ struct DessertBlock: View {
 
 #Preview ("Single Dessert"){
     DessertBlock(blockSize: 10, desserts:  [DessertModel(mealName: "Apple", Instructions: "Peel Apple", Ingredients: "Apple x1", image: Image(systemName: "apple.logo"))])
+}
+#Preview ("3 Dessert"){
+    DessertBlock(blockSize: 10, desserts:  
+                    [DessertModel(mealName: "Apple", Instructions: "Peel Apple", Ingredients: "Apple x1", image: Image(systemName: "apple.logo")),
+                                            
+                     DessertModel(mealName: "Apple", Instructions: "Peel Apple", Ingredients: "Apple x1", image: Image(systemName: "apple.logo"))
+                                            
+//                     ,DessertModel(mealName: "Apple", Instructions: "Peel Apple", Ingredients: "Apple x1", image: Image(systemName: "apple.logo"))
+                    ])
 }
