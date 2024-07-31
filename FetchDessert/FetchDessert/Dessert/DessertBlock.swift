@@ -24,29 +24,48 @@ struct DessertBlock: View {
     @ViewBuilder private var block: some View{
         VStack{
             ScrollView{
-                HStack{
-                    ForEach(desserts, id: \.mealName){ dessert in
-                        ZStack(alignment: .center){
-                            RoundedRectangle(cornerSize: CGSize(width: 20, height: 20)).frame(width: 150,height: 150).opacity(1).foregroundStyle(Color.yellow)
-                                
-                            dessert.image!.resizable().scaledToFit().frame(width: 150, height:150,alignment: .center).padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                                
-                            RoundedRectangle(cornerSize: CGSize(width: 20, height: 20)).frame(width: 150, height: 150).opacity(0).foregroundStyle(Color.red).overlay{
-                                
-                                //halfish icon size overlay title
-                                VStack{
-                                    Spacer()
-                                    RoundedRectangle(cornerSize: CGSize(width: 20, height: 20)).frame(width: 150, height: 80).opacity(0.7).foregroundStyle(Color.gray).overlay{
-                                        Text(" \(dessert.mealName)").foregroundStyle(Color.white).font(.title2).frame(width: 150, height: 80,alignment: .leading).padding(0).clipped()
-                                    }.offset(CGSize(width: 0,height: -15.0)).clipped().offset(CGSize(width: 0,height: 15.0))
-                                }
-                            }
-                        }.onTapGesture {
-                            print("Dessert: \(dessert.mealName) is tapped")
-                        }
-                    }
+                ForEach(Array(stride(from: 0, to: desserts.count, by: 2)), id: \.self) { index in
+                    HStack{
+                        DessertCell(dessertModel: desserts[index])
+                        if(index + 1 < desserts.count){
+                            DessertCell(dessertModel: desserts[index + 1])
+                        } 
+                            
+                    }.frame(alignment: .leading)
                 }
             }
+        }
+    }
+    
+}
+
+struct DessertCell : View{
+    let dessertModel: DessertModel
+    init(dessertModel: DessertModel) {
+        self.dessertModel = dessertModel
+    }
+    var body: some View{
+        ZStack(alignment: .center){
+            RoundedRectangle(cornerSize: CGSize(width: 20, height: 20)).frame(width: 150,height: 150).opacity(1).foregroundStyle(Color.yellow)
+            
+            dessertModel.image!.resizable().scaledToFit().frame(width: 150, height:150,alignment: .center).padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                            
+            RoundedRectangle(cornerSize: CGSize(width: 20, height: 20)).frame(width: 150, height: 150).opacity(0).foregroundStyle(Color.red).overlay{
+                //halfish icon size overlay title
+                VStack{
+                    Spacer()
+                    RoundedRectangle(cornerSize: CGSize(width: 20, height: 20)).frame(width: 150, height: 80).opacity(0.7).foregroundStyle(Color.gray).overlay{
+                        
+                        Text(" \(dessertModel.mealName)").foregroundStyle(Color.white).font(.title2).frame(width: 150, height: 80,alignment: .leading).padding(0).clipped()
+                        
+                    }.offset(CGSize(width: 0,height: -15.0)).clipped().offset(CGSize(width: 0,height: 15.0))
+                    
+                }
+                
+            }
+        }.onTapGesture {
+            print("Dessert: \(dessertModel.mealName) is tapped")
+            
         }
     }
     
@@ -61,6 +80,23 @@ struct DessertBlock: View {
                                             
                      DessertModel(mealName: "Apple", Instructions: "Peel Apple", Ingredients: "Apple x1", image: Image(systemName: "apple.logo"))
                                             
-//                     ,DessertModel(mealName: "Apple", Instructions: "Peel Apple", Ingredients: "Apple x1", image: Image(systemName: "apple.logo"))
+                     ,DessertModel(mealName: "Apple", Instructions: "Peel Apple", Ingredients: "Apple x1", image: Image(systemName: "apple.logo"))
+                    ])
+}
+#Preview ("5 Dessert"){
+    DessertBlock(blockSize: 10, desserts:
+                    [
+                        
+                        DessertModel(mealName: "Apple", Instructions: "Peel Apple", Ingredients: "Apple x1", image: Image(systemName: "apple.logo")),
+                                            
+                     
+                        DessertModel(mealName: "Apple", Instructions: "Peel Apple", Ingredients: "Apple x1", image: Image(systemName: "apple.logo")),
+                     
+                        DessertModel(mealName: "Apple", Instructions: "Peel Apple", Ingredients: "Apple x1", image: Image(systemName: "apple.logo")),
+                                            
+                     
+                        DessertModel(mealName: "Apple", Instructions: "Peel Apple", Ingredients: "Apple x1", image: Image(systemName: "apple.logo")),
+                     
+                        DessertModel(mealName: "Apple", Instructions: "Peel Apple", Ingredients: "Apple x1", image: Image(systemName: "apple.logo"))
                     ])
 }
