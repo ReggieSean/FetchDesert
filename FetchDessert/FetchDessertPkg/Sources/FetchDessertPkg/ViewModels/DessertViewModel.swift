@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class BakeryViewModel: ObservableObject{
+public class DessertViewModel: ObservableObject{
     var dms  : [DessertModel] = []
     public init() {}
 }

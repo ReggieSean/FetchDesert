@@ -11,7 +11,7 @@ import SwiftUI
 struct FetchDessertApp: App {
     var body: some Scene {
         WindowGroup {
-            BakeryView()
+            NavigationLink("DessertView", destination: DessertView())
         }
     }
 }

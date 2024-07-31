@@ -6,17 +6,20 @@
 //
 
 import Foundation
-
+import SwiftUI
 
 //DesertModel for holding meal information
-struct DessertModel{
-    let mealName : String
-    let Instructions: String
-    let Ingredients: String
-    
-    init(mealName: String, Instructions: String, Ingredients: String) {
+
+public struct DessertModel{
+    public let mealName : String
+    public let Instructions: String
+    public let Ingredients: String
+    public let image : Image?
+
+    public init(mealName: String, Instructions: String, Ingredients: String, image: Image?) {
         self.mealName = mealName
         self.Instructions = Instructions
         self.Ingredients = Ingredients
+        self.image = image
     }
 }

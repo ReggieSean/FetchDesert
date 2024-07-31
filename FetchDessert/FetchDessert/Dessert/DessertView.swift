@@ -7,13 +7,14 @@
 import SwiftUI
 import FetchDessertPkg
 
-struct BakeryView: View {
-    @StateObject var bakery = BakeryViewModel()
+struct DessertView: View {
+    @StateObject var bakery = DessertViewModel()
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        RoundedRectangle(cornerSize: CGSize(width: 20, height: 10))
     }
+    
 }
 
 #Preview {
-    BakeryView()
+    DessertView()
 }
