@@ -10,28 +10,27 @@ import SwiftUI
 
 //Block that load a group of desserts
 struct DessertBlock: View {
-    var blockSize : Int
     @State var desserts : [DessertModel]
-    init(blockSize: Int, desserts : [DessertModel]) {
-        self.blockSize = blockSize
+
+    init( desserts : [DessertModel]) {
         self.desserts = desserts
     }
-    
     var body: some View {
         block
     }
         
     @ViewBuilder private var block: some View{
+        let columns = [
+                    GridItem(.flexible()),
+                    GridItem(.flexible())
+                ]
         VStack{
             ScrollView{
-                ForEach(Array(stride(from: 0, to: desserts.count, by: 2)), id: \.self) { index in
-                    HStack{
-                        DessertCell(dessertModel: desserts[index])
-                        if(index + 1 < desserts.count){
-                            DessertCell(dessertModel: desserts[index + 1])
-                        } 
-                            
-                    }.frame(alignment: .leading)
+                LazyVGrid(columns: columns,spacing: 20){
+                    ForEach(desserts.indices, id: \.self) { index in
+                                            DessertCell(dessertModel: desserts[index])
+                    }
+
                 }
             }
         }
@@ -72,10 +71,10 @@ struct DessertCell : View{
 }
 
 #Preview ("Single Dessert"){
-    DessertBlock(blockSize: 10, desserts:  [DessertModel(mealName: "Apple", Instructions: "Peel Apple", Ingredients: "Apple x1", image: Image(systemName: "apple.logo"))])
+    DessertBlock(desserts:  [DessertModel(mealName: "Apple", Instructions: "Peel Apple", Ingredients: "Apple x1", image: Image(systemName: "apple.logo"))])
 }
 #Preview ("3 Dessert"){
-    DessertBlock(blockSize: 10, desserts:  
+    DessertBlock( desserts:
                     [DessertModel(mealName: "Apple", Instructions: "Peel Apple", Ingredients: "Apple x1", image: Image(systemName: "apple.logo")),
                                             
                      DessertModel(mealName: "Apple", Instructions: "Peel Apple", Ingredients: "Apple x1", image: Image(systemName: "apple.logo"))
@@ -84,7 +83,7 @@ struct DessertCell : View{
                     ])
 }
 #Preview ("5 Dessert"){
-    DessertBlock(blockSize: 10, desserts:
+    DessertBlock( desserts:
                     [
                         
                         DessertModel(mealName: "Apple", Instructions: "Peel Apple", Ingredients: "Apple x1", image: Image(systemName: "apple.logo")),
