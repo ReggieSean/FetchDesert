@@ -10,7 +10,10 @@ import Foundation
 enum APIError : Error{
     case requestError(String)
     case responseCastError(String)
+    case decodeError(String)
 }
+
+
 
 public class APIManager :ObservableObject{
    

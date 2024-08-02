@@ -11,7 +11,7 @@ import Foundation
 //DessertViewModel will try not to load all assets of all DesertModel at once.
 @MainActor
 public class DessertViewModel: ObservableObject{
-    @Published var dms  : [DessertModel] = []
+    @Published var dms  : [DetailMealModel] = []
     var currentIdx = 0
     var allList : [String] = []
     //load all the desert Name only
