@@ -14,18 +14,15 @@ extension String {
 }
 
 
-public struct MealResponse : Codable{
-    public let meals : [DetailMealModel]
+public struct MealResponse: Codable{
+    public let meals : [MealModel]
 }
 
-public class MealModel : Codable{
-    public let strMeal: String
-    public let idMeal : Int
+public struct MealModel : Codable{
+    public let idMeal : String
+    public let strMeal: String?
     public let strMealThumb: URL?
-
-    public init(mealName: String, idMeal: Int, strMealThumb: URL){
-        self.strMeal = mealName
-        self.idMeal = idMeal
-        self.strMealThumb = strMealThumb
+    public var id: Int{
+        return Int(idMeal)!
     }
 }

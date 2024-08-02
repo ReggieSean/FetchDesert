@@ -12,6 +12,14 @@ final class FetchDessertPkgTests: XCTestCase {
             }
             XCTAssertTrue(response.statusCode == 200)
             print("data byte count: \(data.count)")
+            //test the idMeal of "Apam balik" is 53049
+            let testedID = 53049
+            let decoder = JSONDecoder()
+            let mealResponse = try decoder.decode(MealResponse.self, from: data)
+            let meal = mealResponse.meals.first{ meal in
+                return meal.strMeal == "Apam balik"
+            }
+            XCTAssertTrue(meal?.id == testedID)
             return
         } catch let Error{
             print(Error.localizedDescription)
@@ -29,6 +37,7 @@ final class FetchDessertPkgTests: XCTestCase {
             }
             XCTAssertTrue(response.statusCode == 200)
             print("data byte count: \(data.count)")
+            
             return
         } catch let Error{
             print(Error.localizedDescription)
@@ -49,7 +58,7 @@ final class FetchDessertPkgTests: XCTestCase {
             XCTAssertTrue(response.statusCode == 200)
             print("data byte count: \(data.count)")
             let decoder = JSONDecoder()
-            let mealResponse = try decoder.decode(MealResponse.self, from: data)
+            let mealResponse = try decoder.decode(DetailMealResponse.self, from: data)
             XCTAssertTrue(mealResponse.meals[0].id == testedID)
             XCTAssertTrue(((mealResponse.meals[0].strMealThumb) != nil))
             let imageURL = mealResponse.meals[0].strMealThumb!.replacingOccurrences(of: "\\/", with: "/")

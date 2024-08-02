@@ -8,7 +8,9 @@
 import Foundation
 import SwiftUI
 
-
+public struct DetailMealResponse : Codable{
+    public let meals : [DetailMealModel]
+}
 
 //DesertModel for holding meal information
 //assume there must be an unique id for any meal
