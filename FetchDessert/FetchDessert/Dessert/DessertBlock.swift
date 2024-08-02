@@ -30,7 +30,6 @@ struct DessertBlock: View {
                     ForEach(desserts.indices, id: \.self) { index in
                                             DessertCell(dessertModel: desserts[index])
                     }
-
                 }
             }
         }

@@ -7,6 +7,21 @@
 
 import Foundation
 
-class APIManager :ObservableObject{
+enum APIError : Error{
+    case requestError(String)
+    case responseCastError(String)
+}
+
+public class APIManager :ObservableObject{
    
+    
+    
+    public static var shared = APIManager()
+    
+    public init(){}
+    
+    
+    public func reteriveAllDesert() async -> [String]?{
+        return nil
+    }
 }
