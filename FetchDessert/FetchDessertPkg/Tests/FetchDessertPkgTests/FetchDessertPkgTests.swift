@@ -20,6 +20,9 @@ final class FetchDessertPkgTests: XCTestCase {
                 return meal.strMeal == "Apam balik"
             }
             XCTAssertTrue(meal?.id == testedID)
+            if let thumb = meal?.strMealThumb{
+                print(thumb)
+            }
             return
         } catch let Error{
             print(Error.localizedDescription)
@@ -61,8 +64,10 @@ final class FetchDessertPkgTests: XCTestCase {
             let mealResponse = try decoder.decode(DetailMealResponse.self, from: data)
             XCTAssertTrue(mealResponse.meals[0].id == testedID)
             XCTAssertTrue(((mealResponse.meals[0].strMealThumb) != nil))
-            let imageURL = mealResponse.meals[0].strMealThumb!.replacingOccurrences(of: "\\/", with: "/")
-            let (imageData, imageResponse) = try await session.data(from:  URL(string: imageURL)!)
+            
+            print(mealResponse.meals[0].mizanplas)
+            let imageURL = mealResponse.meals[0].strMealThumb
+            let (imageData, imageResponse) = try await session.data(from:  imageURL!)
             guard let response = imageResponse as? HTTPURLResponse , response.statusCode >= 200 && response.statusCode < 400 else{
                 throw APIError.responseCastError("testDownloadImage  response")
             }

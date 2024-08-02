@@ -25,7 +25,7 @@ public class APIManager :ObservableObject{
     public init(){}
     
     
-    public func reteriveAllDesert() async -> [MealModel]?{
+    public func reteriveAllDessert() async -> [MealModel]?{
         let apimanger = APIManager.shared
         let session = URLSession.shared
         do{

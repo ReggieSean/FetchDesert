@@ -21,9 +21,9 @@ public struct DetailMealModel: Codable{
     let strCategory : String?
     let strArea : String?
     let strInstructions : String?
-    let strMealThumb: String?
+    let strMealThumb: URL?
     let strTags: String?
-    let strYoutube: String?
+    let strYoutube: URL?
     let strIngredient1: String?
     let strIngredient2: String?
     let strIngredient3: String?
@@ -64,8 +64,8 @@ public struct DetailMealModel: Codable{
     let strMeasure18: String?
     let strMeasure19: String?
     let strMeasure20: String?
-    let strSource: String?
-    let strImageSource: String?
+    let strSource: URL?
+    let strImageSource: URL?
     let strCreativeCommonsConfirmed : String?
     let dateModified: String?
     public var id: Int{
@@ -74,143 +74,198 @@ public struct DetailMealModel: Codable{
     public var mizanplas: [(String, String)]{
         var arr : [(String,String)] = []
         if let ingredient = strIngredient1{
-            if let measure = strMeasure1{
-                arr.append((ingredient,measure))
-            }else{
-                arr.append((ingredient, "TBD"))
+            if !ingredient.isEmpty{
+                if let measure = strMeasure1{
+                    arr.append((ingredient,measure))
+                }else{
+                    arr.append((ingredient, "TBD"))
+                }
             }
         }
         if let ingredient = strIngredient2{
-            if let measure = strMeasure2{
-                arr.append((ingredient,measure))
-            }else{
-                arr.append((ingredient, "TBD"))
+            if !ingredient.isEmpty{
+                if let measure = strMeasure2{
+                    arr.append((ingredient,measure))
+                }else{
+                    arr.append((ingredient, "TBD"))
+                }
             }
         }
         if let ingredient = strIngredient3{
-            if let measure = strMeasure3{
-                arr.append((ingredient,measure))
-            }else{
-                arr.append((ingredient, "TBD"))
+            if !ingredient.isEmpty{
+                if let measure = strMeasure3{
+                    arr.append((ingredient,measure))
+                }else{
+                    arr.append((ingredient, "TBD"))
+                }
             }
         }
         if let ingredient = strIngredient4{
-            if let measure = strMeasure4{
-                arr.append((ingredient,measure))
-            }else{
-                arr.append((ingredient, "TBD"))
+            if !ingredient.isEmpty{
+                if let measure = strMeasure4{
+                    arr.append((ingredient,measure))
+                }else{
+                    arr.append((ingredient, "TBD"))
+                }
             }
         }
         if let ingredient = strIngredient5{
-            if let measure = strMeasure5{
-                arr.append((ingredient,measure))
-            }else{
-                arr.append((ingredient, "TBD"))
+            if !ingredient.isEmpty{
+                
+                if let measure = strMeasure5{
+                    arr.append((ingredient,measure))
+                }else{
+                    arr.append((ingredient, "TBD"))
+                }
             }
         }
         if let ingredient = strIngredient6{
-            if let measure = strMeasure6{
-                arr.append((ingredient,measure))
-            }else{
-                arr.append((ingredient, "TBD"))
+            if !ingredient.isEmpty{
+                
+                if let measure = strMeasure6{
+                    arr.append((ingredient,measure))
+                }else{
+                    arr.append((ingredient, "TBD"))
+                }
             }
         }
         if let ingredient = strIngredient7{
-            if let measure = strMeasure7{
-                arr.append((ingredient,measure))
-            }else{
-                arr.append((ingredient, "TBD"))
+            if !ingredient.isEmpty{
+                if let measure = strMeasure7{
+                    arr.append((ingredient,measure))
+                }else{
+                    arr.append((ingredient, "TBD"))
+                }
             }
         }
         if let ingredient = strIngredient8{
-            if let measure = strMeasure8{
-                arr.append((ingredient,measure))
-            }else{
-                arr.append((ingredient, "TBD"))
+            if !ingredient.isEmpty{
+                
+                if let measure = strMeasure8{
+                    arr.append((ingredient,measure))
+                }else{
+                    arr.append((ingredient, "TBD"))
+                }
             }
         }
         if let ingredient = strIngredient9{
-            if let measure = strMeasure9{
-                arr.append((ingredient,measure))
-            }else{
-                arr.append((ingredient, "TBD"))
+            if !ingredient.isEmpty{
+                
+                if let measure = strMeasure9{
+                    arr.append((ingredient,measure))
+                }else{
+                    arr.append((ingredient, "TBD"))
+                }
             }
         }
         if let ingredient = strIngredient10{
-            if let measure = strMeasure10{
-                arr.append((ingredient,measure))
-            }else{
-                arr.append((ingredient, "TBD"))
+            if !ingredient.isEmpty{
+                
+                if let measure = strMeasure10{
+                    arr.append((ingredient,measure))
+                }else{
+                    arr.append((ingredient, "TBD"))
+                }
             }
         }
         if let ingredient = strIngredient11{
-            if let measure = strMeasure11{
-                arr.append((ingredient,measure))
-            }else{
-                arr.append((ingredient, "TBD"))
+            if !ingredient.isEmpty{
+                
+                if let measure = strMeasure11{
+                    arr.append((ingredient,measure))
+                }else{
+                    arr.append((ingredient, "TBD"))
+                }
             }
         }
         if let ingredient = strIngredient12{
-            if let measure = strMeasure12{
-                arr.append((ingredient,measure))
-            }else{
-                arr.append((ingredient, "TBD"))
+            if !ingredient.isEmpty{
+                
+                if let measure = strMeasure12{
+                    arr.append((ingredient,measure))
+                }else{
+                    arr.append((ingredient, "TBD"))
+                }
             }
         }
         if let ingredient = strIngredient13{
-            if let measure = strMeasure13{
-                arr.append((ingredient,measure))
-            }else{
-                arr.append((ingredient, "TBD"))
+            if !ingredient.isEmpty{
+                
+                if let measure = strMeasure13{
+                    arr.append((ingredient,measure))
+                }else{
+                    arr.append((ingredient, "TBD"))
+                }
             }
         }
         if let ingredient = strIngredient14{
-            if let measure = strMeasure14{
-                arr.append((ingredient,measure))
-            }else{
-                arr.append((ingredient, "TBD"))
+            if !ingredient.isEmpty{
+                
+                if let measure = strMeasure14{
+                    arr.append((ingredient,measure))
+                }else{
+                    arr.append((ingredient, "TBD"))
+                }
             }
         }
         if let ingredient = strIngredient15{
-            if let measure = strMeasure15{
-                arr.append((ingredient,measure))
-            }else{
-                arr.append((ingredient, "TBD"))
+            if !ingredient.isEmpty{
+                
+                if let measure = strMeasure15{
+                    arr.append((ingredient,measure))
+                }else{
+                    arr.append((ingredient, "TBD"))
+                }
             }
         }
         if let ingredient = strIngredient16{
-            if let measure = strMeasure16{
-                arr.append((ingredient,measure))
-            }else{
-                arr.append((ingredient, "TBD"))
+            if !ingredient.isEmpty{
+                
+                if let measure = strMeasure16{
+                    arr.append((ingredient,measure))
+                }else{
+                    arr.append((ingredient, "TBD"))
+                }
             }
         }
         if let ingredient = strIngredient17{
-            if let measure = strMeasure17{
-                arr.append((ingredient,measure))
-            }else{
-                arr.append((ingredient, "TBD"))
+            if !ingredient.isEmpty{
+                
+                if let measure = strMeasure17{
+                    arr.append((ingredient,measure))
+                }else{
+                    arr.append((ingredient, "TBD"))
+                }
             }
         }
         if let ingredient = strIngredient18{
-            if let measure = strMeasure18{
-                arr.append((ingredient,measure))
-            }else{
-                arr.append((ingredient, "TBD"))
+            if !ingredient.isEmpty{
+                
+                if let measure = strMeasure18{
+                    arr.append((ingredient,measure))
+                }else{
+                    arr.append((ingredient, "TBD"))
+                }
             }
         }
         if let ingredient = strIngredient19{
-            if let measure = strMeasure19{
-                arr.append((ingredient,measure))
-            }else{
-                arr.append((ingredient, "TBD"))
+            if !ingredient.isEmpty{
+                
+                if let measure = strMeasure19{
+                    arr.append((ingredient,measure))
+                }else{
+                    arr.append((ingredient, "TBD"))
+                }
             }
         }
         if let ingredient = strIngredient20{
-            if let measure = strMeasure20{
-                arr.append((ingredient,measure))
-            }else{
-                arr.append((ingredient, "TBD"))
+            if !ingredient.isEmpty{
+                
+                if let measure = strMeasure20{
+                    arr.append((ingredient,measure))
+                }else{
+                    arr.append((ingredient, "TBD"))
+                }
             }
         }
         return arr

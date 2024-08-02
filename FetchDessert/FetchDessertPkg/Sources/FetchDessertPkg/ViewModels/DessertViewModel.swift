@@ -8,32 +8,29 @@
 import Foundation
 
 //Viewmodel that is responsible for publishing models to populate its view
-//DessertViewModel will try not to load all assets of all DesertModel at once.
+//assume that there will be a small amount of desert
+//DessertViewModel will not to load all assets of all DetailDesertModel at the begining.
 @MainActor
 public class DessertViewModel: ObservableObject{
-    @Published var dms  : [DetailMealModel] = []
-    var currentIdx = 0
-    var allList : [String] = []
+    @Published public var ms  : [MealModel] = []
+    public var currentIdx = 0
+    public var allList : [String] = []
     //load all the desert Name only
     public init() {
         print("Init DessertVM")
         Task(priority: .high){
             let apimanager = APIManager.shared
-            if let list = await apimanager.reteriveAllDesert(){
+            if let list = await apimanager.reteriveAllDessert(){
                 await MainActor.run(body: {
-                    //print("Thread \(Thread.current)")
-                    self.allList = list
+                    self.ms = list
                 })
             }else{
-                print("Failed to reterive at Thread")
+                print("DessertVM init: Failed to reterive list of All Dessert")
             }
         }
     }
     
     
     public func loadMoreDessert() async throws -> (){
-        if(currentIdx + 10 < dms.count){
-            
-        }
     }
 }
