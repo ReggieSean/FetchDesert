@@ -59,13 +59,17 @@ public class APIManager :ObservableObject{
         return nil
     }
     
-    public func downloadImage(mealThumb: String) async -> Image? {
+    public func downloadImage(mealThumb: URL) async -> Image? {
         let session = URLSession.shared
         do{
-            let imageURL = URL(string: mealThumb.replacingOccurrences(of: "\\/", with: "/"))!
+//            let imageURL = URL(string: mealThumb.replacingOccurrences(of: "\\/", with: "/"))!
+            let imageURL = mealThumb
             let (imageData, imageResponse) = try await session.data(from:  imageURL)
             guard let response = imageResponse as? HTTPURLResponse , response.statusCode >= 200 && response.statusCode < 400 else{
                 throw APIError.responseCastError("failed to download image")
+            }
+            if let uiImage = UIImage(data: imageData){
+                return Image(uiImage: uiImage)
             }
         } catch let Error{
             print(Error)
