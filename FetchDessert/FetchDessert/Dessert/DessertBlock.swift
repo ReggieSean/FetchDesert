@@ -21,14 +21,16 @@ struct DessertBlock: View {
         
     @ViewBuilder private var block: some View{
         let columns = [
-                    GridItem(.flexible()),
-                    GridItem(.flexible())
-                ]
+            GridItem(.flexible()),
+            GridItem(.flexible())
+        ]
         VStack{
             ScrollView{
-                LazyVGrid(columns: columns,spacing: 20){
+                LazyVGrid(columns: columns,spacing: 100){
                     ForEach(desserts.indices, id: \.self) { index in
-                        DessertCell(dessertModel: desserts[index])
+                        NavigationLink( "DetailView"){
+                            DessertDetailView(dessert: desserts[index])
+                        }
                     }
                 }
             }
@@ -59,7 +61,7 @@ struct DessertCell : View{
                         Spacer()
                         RoundedRectangle(cornerSize: CGSize(width: 20, height: 20)).frame(width: 150, height: 80).opacity(0.7).foregroundStyle(Color.gray).overlay{
                             
-                            Text(" \(dessertModel.strMeal!)").foregroundStyle(Color.white).font(.title2).frame(width: 150, height: 80,alignment: .leading).padding(0).clipped()
+                            Text(" \(dessertModel.strMeal!)").foregroundStyle(Color.white).font(.title3).frame(width: 150, height: 80,alignment: .leading).padding(0).clipped()
                             
                         }.offset(CGSize(width: 0,height: -15.0)).clipped().offset(CGSize(width: 0,height: 15.0))
                         
@@ -93,6 +95,21 @@ struct DessertCell : View{
     do{
         let model = try decoder.decode(MealModel.self, from:jsonString)
         return DessertBlock(desserts:  .constant([model]))
+    } catch{}
+    //return Text()
+    return Text("Error SingleDessert")
+}
+#Preview (" 2 Desserts"){
+    let mealData = """
+    {
+    "strMeal":"Apam balik","strMealThumb":"https://www.themealdb.com/images/media/meals/adxcbq1619787919.jpg","idMeal":"53049"
+    }
+    """
+    let decoder = JSONDecoder()
+    let jsonString = mealData.data(using: .utf8)!
+    do{
+        let model = try decoder.decode(MealModel.self, from:jsonString)
+        return DessertBlock(desserts:  .constant([model, model]))
     } catch{}
     //return Text()
     return Text("Error SingleDessert")
