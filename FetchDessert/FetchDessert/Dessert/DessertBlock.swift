@@ -25,16 +25,17 @@ struct DessertBlock: View {
             GridItem(.flexible())
         ]
         VStack{
-            ScrollView{
-                LazyVGrid(columns: columns,spacing: 100){
-                    ForEach(desserts.indices, id: \.self) { index in
-                        NavigationLink( "DetailView"){
-                            DessertDetailView(dessert: desserts[index])
+                ScrollView{
+                    LazyVGrid(columns: columns,spacing: 10){//use Lazylayout for performance
+                        ForEach(desserts, id: \.id) { dessert in
+                            NavigationLink(destination: DessertDetailView(dessert: dessert))
+                                {
+                                    DessertCell(dessertModel: dessert)
+                                }
                         }
                     }
                 }
             }
-        }
     }
     
 }
@@ -72,10 +73,8 @@ struct DessertCell : View{
                 //halfish icon size overlay title
                 
             }
-        }.onTapGesture {
-            print("Dessert: \(dessertModel.strMeal!) is tapped")
-            
         }.task{
+            //print("Dessert: \(dessertModel.strMeal!) is tapped")
             if  let imgStr = dessertModel.strMealThumb{
                 image = await APIManager.shared.downloadImage(mealThumb: imgStr)
             }

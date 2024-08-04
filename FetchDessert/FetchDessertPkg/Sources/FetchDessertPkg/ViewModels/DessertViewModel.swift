@@ -22,6 +22,7 @@ public class DessertViewModel: ObservableObject{
             let apimanager = APIManager.shared
             if let list = await apimanager.reteriveAllDessert(){
                 await MainActor.run(body: {
+                    print("DessertVM: Reterived all dessert list")
                     self.ms = list
                 })
             }else{

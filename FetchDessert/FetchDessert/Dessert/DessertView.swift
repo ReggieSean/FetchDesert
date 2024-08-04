@@ -9,8 +9,10 @@ import FetchDessertPkg
 struct DessertView: View {
     @StateObject var bakery = DessertViewModel()
     var body: some View {
-        RoundedRectangle(cornerSize: CGSize(width: 20, height: 10)).foregroundStyle(Color.gray).ignoresSafeArea().overlay{
-            DessertBlock(desserts: $bakery.ms)
+        NavigationView{
+            RoundedRectangle(cornerSize: CGSize(width: 20, height: 10)).foregroundStyle(Color.white).ignoresSafeArea().overlay{
+                DessertBlock(desserts: $bakery.ms)
+            }.navigationTitle("Desserts").font(.largeTitle)
         }
     }
     

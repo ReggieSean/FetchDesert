@@ -14,7 +14,7 @@ public struct DetailMealResponse : Codable{
 
 //DesertModel for holding meal information
 //assume there must be an unique id for any meal
-public struct DetailMealModel: Codable{
+public struct DetailMealModel: Codable, Identifiable{
     public let idMeal : String
     public let strMeal : String?
     public let strDrinkAlternate : String?

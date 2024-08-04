@@ -18,7 +18,8 @@ public struct MealResponse: Codable{
     public let meals : [MealModel]
 }
 
-public struct MealModel : Codable{
+public struct MealModel : Codable, Identifiable{
+    
     public let idMeal : String
     public let strMeal: String?
     public let strMealThumb: URL?

@@ -13,6 +13,11 @@ struct DessertDetailView: View {
     let dessert : MealModel
     @State var dessertDetail : DetailMealModel?
     @State var thumbImage : Image?
+    public init(dessert: MealModel){
+        self.dessert = dessert
+        print("dessert \(String(describing: dessert.strMeal)) detail init")
+    }
+    
     var body: some View {
         ZStack{
             RoundedRectangle(cornerSize: CGSize(width: 0, height: 0)).frame(minWidth: 300 ,minHeight: 300, alignment: .center).foregroundStyle(Color.white).overlay{
@@ -30,7 +35,7 @@ struct DessertDetailView: View {
                             
                         }
                     } else{
-                        RoundedRectangle(cornerSize: CGSize(width: 0, height: 0)).fill(LinearGradient(gradient:Gradient(colors:[Color.yellow,Color.yellow,Color.clear]), startPoint: .top, endPoint: .bottom)).frame(width: .infinity, height: 300).overlay{
+                        RoundedRectangle(cornerSize: CGSize(width: 0, height: 0)).fill(LinearGradient(gradient:Gradient(colors:[Color.yellow,Color.yellow,Color.clear]), startPoint: .top, endPoint: .bottom)).frame( height: 300).overlay{
                             VStack{
                                 Spacer()
                                 Text(dessert.strMeal!).font(.title)
@@ -105,12 +110,15 @@ struct DessertDetailView: View {
     
     @ViewBuilder private var youtube: some View{
         if let link = dessertDetail!.strYoutube{
+            
             Section(header: Text("Video:").font(.body).padding(0)){
-                VideoPlayer(player: AVPlayer(url: link))
-                    .frame(width: .infinity, height: 300)
+                VideoPlayer(player: AVPlayer(url:link))
+                    .frame( height: 300)
                     .cornerRadius(10.0)
                     .padding()
                 
+            }.onAppear{
+                print("loading \(link)")
             }
         }
     }
