@@ -16,6 +16,7 @@ struct DessertDetailView: View {
     public init(dessert: MealModel){
         self.dessert = dessert
         print("dessert \(String(describing: dessert.strMeal)) detail init")
+        
     }
     
     var body: some View {
@@ -110,15 +111,8 @@ struct DessertDetailView: View {
     
     @ViewBuilder private var youtube: some View{
         if let link = dessertDetail!.strYoutube{
-            
-            Section(header: Text("Video:").font(.body).padding(0)){
-                VideoPlayer(player: AVPlayer(url:link))
-                    .frame( height: 300)
-                    .cornerRadius(10.0)
-                    .padding()
-                
-            }.onAppear{
-                print("loading \(link)")
+            Section(header: Text("Link to Video:").font(.body).padding(0)){
+                Link("Open in Browser", destination: link)
             }
         }
     }
@@ -143,6 +137,7 @@ struct DessertDetailView: View {
             }else{
                 print("\(dessert.strMeal!)'s thumbImg is empty")
             }
+            
         }
     }
 }
