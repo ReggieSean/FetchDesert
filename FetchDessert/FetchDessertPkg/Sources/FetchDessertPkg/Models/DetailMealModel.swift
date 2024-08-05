@@ -15,15 +15,15 @@ public struct DetailMealResponse : Codable{
 //DesertModel for holding meal information
 //assume there must be an unique id for any meal
 public struct DetailMealModel: Codable, Identifiable{
-    public let idMeal : String
+    private let idMeal : String
     public let strMeal : String?
     public let strDrinkAlternate : String?
     public let strCategory : String?
     public let strArea : String?
     public let strInstructions : String?
-    let strMealThumb: String?
     public let strTags: String?
-    let strYoutube: String?
+    private let strMealThumb: String?
+    private let strYoutube: String?
     let strIngredient1: String?
     let strIngredient2: String?
     let strIngredient3: String?
@@ -64,9 +64,9 @@ public struct DetailMealModel: Codable, Identifiable{
     let strMeasure18: String?
     let strMeasure19: String?
     let strMeasure20: String?
-    let strSource: String?
-    let strImageSource: String?
-    let strCreativeCommonsConfirmed : String?
+    private let strSource: String?
+    private let strImageSource: String?
+    public let strCreativeCommonsConfirmed : String?
     public let dateModified: String?
     public var id: Int{
         return Int(idMeal)!

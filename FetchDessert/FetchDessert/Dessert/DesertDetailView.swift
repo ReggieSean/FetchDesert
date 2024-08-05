@@ -87,7 +87,7 @@ struct DessertDetailView: View {
 
     @ViewBuilder private var area: some View{
         if let area = dessertDetail!.strArea{
-            Section(header: Text("Dessert is from:").font(.body).padding(0)){
+            Section(header: Text("Dessert region:").font(.body).padding(0)){
                 Text(area)
             }
         }

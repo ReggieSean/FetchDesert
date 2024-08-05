@@ -23,7 +23,7 @@ public class DessertViewModel: ObservableObject{
             if let list = await apimanager.reteriveAllDessert(){
                 await MainActor.run(body: {
                     print("DessertVM: Reterived all dessert list")
-                    self.ms = list
+                    self.ms = list.sorted { $0.strMeal! < $1.strMeal!}
                 })
             }else{
                 print("DessertVM init: Failed to reterive list of All Dessert")

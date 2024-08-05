@@ -63,10 +63,10 @@ final class FetchDessertPkgTests: XCTestCase {
             let decoder = JSONDecoder()
             let mealResponse = try decoder.decode(DetailMealResponse.self, from: data)
             XCTAssertTrue(mealResponse.meals[0].id == testedID)
-            XCTAssertTrue(((mealResponse.meals[0].strMealThumb) != nil))
+            XCTAssertTrue(((mealResponse.meals[0].mealThumb) != nil))
             
             print(mealResponse.meals[0].mizanplas)
-            let imageURL = mealResponse.meals[0].strMealThumb
+            let imageURL = mealResponse.meals[0].mealThumb
             let (imageData, imageResponse) = try await session.data(from:  imageURL!)
             guard let response = imageResponse as? HTTPURLResponse , response.statusCode >= 200 && response.statusCode < 400 else{
                 throw APIError.responseCastError("testDownloadImage  response")
