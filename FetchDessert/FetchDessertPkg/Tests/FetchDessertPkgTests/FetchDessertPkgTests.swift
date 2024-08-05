@@ -80,5 +80,31 @@ final class FetchDessertPkgTests: XCTestCase {
         XCTAssertTrue(false)
     }
     
+    func testCastWithNilValues() async{
+        let testedID = 52990 // item with weird cast error
+        //let testedImageURL = "https:\/\/www.themealdb.com\/images\/media\/meals\/1549542877.jpg"
+        let apimanger = APIManager.shared
+        let session = URLSession.shared
+        do{
+            let (data, response) = try await session.data(from: apimanger.mealPrep(mealID: testedID)!)
+            guard let response = response as? HTTPURLResponse , response.statusCode >= 200 && response.statusCode < 400 else{
+                throw APIError.responseCastError("testDownload response")
+            }
+            XCTAssertTrue(response.statusCode == 200)
+            print("data byte count: \(data.count)")
+            let decoder = JSONDecoder()
+            let mealResponse = try decoder.decode(DetailMealResponse.self, from: data)
+            XCTAssertTrue(mealResponse.meals[0].id == testedID)
+            print("meal Response",mealResponse)
+           
+            //XCTAssertTrue(mealResponse.meals[0].strImageSource == testedImageURL)
+            return
+        } catch let Error{
+            print(Error)
+        }
+        XCTAssertTrue(false)
+    }
+    
+    
     
 }

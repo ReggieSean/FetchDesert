@@ -50,11 +50,18 @@ public class APIManager :ObservableObject{
             guard let response = response as? HTTPURLResponse , response.statusCode >= 200 && response.statusCode < 400 else{
                 throw APIError.responseCastError("failed to reterive Dessret")
             }
+            #if DEBUG
+            print("DessertDetail httpresponse \(response)")
+            print("DessertDetail data \(data)")
+            #endif
             let decoder = JSONDecoder()
             let mealResponse = try decoder.decode(DetailMealResponse.self, from: data)
             return mealResponse.meals[0]
         } catch let Error{
+            #if DEBUG
             print(Error)
+            print(Error.localizedDescription)
+            #endif
         }
         return nil
     }

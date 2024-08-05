@@ -21,9 +21,9 @@ public struct DetailMealModel: Codable, Identifiable{
     public let strCategory : String?
     public let strArea : String?
     public let strInstructions : String?
-    public let strMealThumb: URL?
+    let strMealThumb: String?
     public let strTags: String?
-    public let strYoutube: URL?
+    let strYoutube: String?
     let strIngredient1: String?
     let strIngredient2: String?
     let strIngredient3: String?
@@ -64,13 +64,34 @@ public struct DetailMealModel: Codable, Identifiable{
     let strMeasure18: String?
     let strMeasure19: String?
     let strMeasure20: String?
-    let strSource: URL?
-    let strImageSource: URL?
+    let strSource: String?
+    let strImageSource: String?
     let strCreativeCommonsConfirmed : String?
     public let dateModified: String?
     public var id: Int{
         return Int(idMeal)!
     }
+    public var mealThumb:URL?{
+        if let str = strMealThumb{
+            guard let url = URL(string: str) else{
+               return nil
+            }
+            return url
+        }else{
+            return nil
+        }
+    }
+    public var youTube: URL?{
+        if let str = strYoutube{
+            guard let url = URL(string: str) else{
+               return nil
+            }
+            return url
+        }else{
+            return nil
+        }
+    }
+    
     public var mizanplas: [(String, String)]{
         var arr : [(String,String)] = []
         if let ingredient = strIngredient1{

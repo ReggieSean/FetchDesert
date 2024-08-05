@@ -110,7 +110,7 @@ struct DessertDetailView: View {
     }
     
     @ViewBuilder private var youtube: some View{
-        if let link = dessertDetail!.strYoutube{
+        if let link = dessertDetail!.youTube{
             Section(header: Text("Link to Video:").font(.body).padding(0)){
                 Link("Open in Browser", destination: link)
             }
@@ -130,7 +130,7 @@ struct DessertDetailView: View {
             if let meal = await APIManager.shared.reteriveDesert(id: dessert.id){
                 dessertDetail = meal
             }
-            if let thumb = dessertDetail!.strMealThumb{
+            if let thumb = dessertDetail!.mealThumb{
                 if let img = await APIManager.shared.downloadImage(mealThumb: thumb){
                     thumbImage = img
                 }
