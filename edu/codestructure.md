@@ -12,6 +12,14 @@ Additionally, one could write automated tests for the app without the need of si
 ### VM:
 **DessertViewModel.swift**: This ViewModel is used to fetch the data from the API call to The Meal DB at init. It is used to store the array of meals. More functions to modify the state of the models can be added here</br>
 
+### Interface:
+**APIManager.swift**: This is the interface for the API call to The Meal DB. It is used to download MealModel and DetailMealModel and other data.</br>
+
+### Tests:
+**FetchDessertPkgTests.swift**: Tests primarily used to build API fucntionalities, and test if network calls are normal. Can add automatic UI testing</br>
+
+## FetchDessert
+
 ### Views:
 **DessertView.swift**: the top level view for displaying DessertBlock(s)
 **DessertBlock.swift**: the view for displaying columns of meal previews
