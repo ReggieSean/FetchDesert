@@ -22,5 +22,5 @@ Additionally, one could write automated tests for the app without the need of si
 
 ### Views:
 **DessertView.swift**: the top level view for displaying DessertBlock(s)
-**DessertBlock.swift**: the view for displaying columns of meal previews
+**DessertBlock.swift**: the modular view for displaying columns of meal previews. 
 **DessertDetailView.swift**: the view for displaying the details of a meal, including ingredients, measurements, and instructions</br>

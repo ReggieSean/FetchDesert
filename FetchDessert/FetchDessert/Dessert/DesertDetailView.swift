@@ -15,7 +15,9 @@ struct DessertDetailView: View {
     @State var thumbImage : Image?
     public init(dessert: MealModel){
         self.dessert = dessert
+        #if DEBUG
         print("dessert \(String(describing: dessert.strMeal)) detail init")
+        #endif
         
     }
     
