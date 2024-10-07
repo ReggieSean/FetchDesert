@@ -16,7 +16,8 @@ extension APIManager{
     }
     func mealPrep(mealID : Int) -> URL?{
         guard let url = URL(string:"https://themealdb.com/api/json/v1/1/lookup.php?i=\(mealID)") else{
-           return nil
+            print("URL not formable.")
+            return nil
         }
         return url
     }

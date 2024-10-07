@@ -64,23 +64,25 @@ struct DessertDetailView: View {
     
     @ViewBuilder private var ingredients: some View{
                 Section(header: Text("Ingredaients").font(.body).padding(0)){
-                    ForEach(dessertDetail!.mizanplas, id: \.0){ pair in
+                    ForEach(dessertDetail!.mizanplas.sorted(by: { $0.key < $1.key }), id: \.key){ key, value in
                         HStack(alignment: .center){
-                            Text((pair.0))
-                            Text((pair.1))
+                            Text((key))
+                            Text((value))
                         }
                     }
                 }
     }
     
     @ViewBuilder private var instructions: some View{
+        if let instructions = dessertDetail?.instructions{
             Section(header: Text("Instructions").font(.body).padding(0)){
-                Text(dessertDetail!.strInstructions ?? "TBD")
+                Text(instructions)
             }
+        }
     }
     
     @ViewBuilder private var drinkAlternative: some View{
-        if let drink = dessertDetail!.strDrinkAlternate{
+        if let drink = dessertDetail?.drinkAlt{
             Section(header: Text("Drink Alternate").font(.body).padding(0)){
                 Text(drink)
             }
@@ -88,7 +90,7 @@ struct DessertDetailView: View {
     }
 
     @ViewBuilder private var area: some View{
-        if let area = dessertDetail!.strArea{
+        if let area = dessertDetail?.area{
             Section(header: Text("Dessert region:").font(.body).padding(0)){
                 Text(area)
             }
@@ -96,7 +98,7 @@ struct DessertDetailView: View {
     }
 
     @ViewBuilder private var category: some View{
-        if let category = dessertDetail!.strCategory{
+        if let category = dessertDetail?.category{
             Section(header: Text("Category:").font(.body).padding(0)){
                 Text(category)
             }
@@ -104,7 +106,7 @@ struct DessertDetailView: View {
     }
     
     @ViewBuilder private var tags: some View{
-        if let tags = dessertDetail!.strTags{
+        if let tags = dessertDetail?.tags{
             Section(header: Text("Tags:").font(.body).padding(0)){
                 Text(tags)
             }
@@ -112,15 +114,15 @@ struct DessertDetailView: View {
     }
     
     @ViewBuilder private var youtube: some View{
-        if let link = dessertDetail!.youTube{
+        if let link = dessertDetail?.yotube, !link.isEmpty{
             Section(header: Text("Link to Video:").font(.body).padding(0)){
-                Link("Open in Browser", destination: link)
+                Link("Open in Browser", destination: URL(string: link)!)
             }
         }
     }
     
     @ViewBuilder private var date: some View{
-        if let date = dessertDetail!.dateModified{
+        if let date = dessertDetail?.date{
             Section(header: Text("Last Modified on:").font(.body).padding(0)){
                 Text(date)
             }
@@ -132,8 +134,8 @@ struct DessertDetailView: View {
             if let meal = await APIManager.shared.reteriveDesert(id: dessert.id){
                 dessertDetail = meal
             }
-            if let thumb = dessertDetail!.mealThumb{
-                if let img = await APIManager.shared.downloadImage(mealThumb: thumb){
+            if let thumb = dessertDetail?.thumb, !thumb.isEmpty{
+                if let img = await APIManager.shared.downloadImage(mealThumb: URL(string:thumb)!){
                     thumbImage = img
                 }
             }else{

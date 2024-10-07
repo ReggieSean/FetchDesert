@@ -8,293 +8,144 @@
 import Foundation
 import SwiftUI
 
-public struct DetailMealResponse : Codable{
+public struct DetailMealResponse : Decodable{
     public let meals : [DetailMealModel]
+    
+}
+//extension DetailMealResponse: Decodable{
+//    public init(from decoder: any Decoder) throws {
+//        let container = try decoder.singleValueContainer()
+//        self.meals = try container.decode([DetailMealModel].self)
+//    }
+//}
+
+extension DetailMealModel: Decodable{
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: DessertKeys.self)
+        self.id = Int(try container.decode(String.self, forKey: .id)) ?? 0
+        self.meal = try container.decodeIfPresent(String.self, forKey: .meal) ?? ""
+        self.drinkAlt = try container.decodeIfPresent(String.self, forKey: .drinkAlt) ?? ""
+        self.category = try container.decodeIfPresent(String.self, forKey: .category) ?? ""
+        self.area = try container.decodeIfPresent(String.self, forKey: .area) ?? ""
+        self.instructions  = try container.decodeIfPresent(String.self, forKey: .instructions) ?? ""
+        self.tags = try container.decodeIfPresent(String.self, forKey: .tags) ?? ""
+        self.thumb = try container.decodeIfPresent(String.self, forKey: .thumb) ?? ""
+        self.yotube = try container.decodeIfPresent(String.self, forKey: .youtube) ?? ""
+        self.src = try container.decodeIfPresent(String.self, forKey: .src) ?? ""
+        self.imageSrc = try container.decodeIfPresent(String.self, forKey: .imageSrc) ?? ""
+        self.ccc  = try container.decodeIfPresent(String.self, forKey: .ccc) ?? ""
+        self.date  = try container.decodeIfPresent(String.self, forKey: .date) ?? ""
+        
+        var miz = [String:String]()
+        for i in 1...20 {
+                    // Dynamically construct ingredient and measurement keys
+                    let ingredientKey = DessertKeys(stringValue: "strIngredient\(i)")!
+                    let measurementKey = DessertKeys(stringValue: "strMeasure\(i)")!
+                    
+                    // Decode the ingredient and its measurement if they exist
+                    if let ingredient = try container.decodeIfPresent(String.self, forKey: ingredientKey), !ingredient.isEmpty {
+                        let measure = try container.decodeIfPresent(String.self, forKey: measurementKey) ?? "TBD"
+                        miz[ingredient] = measure
+                    }
+                }
+        self.mizanplas = miz
+        
+    }
+}
+extension DetailMealModel: Encodable{
+    public func encode(to encoder: any Encoder) throws {
+        
+    }
 }
 
+ 
 //DesertModel for holding meal information
 //assume there must be an unique id for any meal
-public struct DetailMealModel: Codable, Identifiable{
-    private let idMeal : String
-    public let strMeal : String?
-    public let strDrinkAlternate : String?
-    public let strCategory : String?
-    public let strArea : String?
-    public let strInstructions : String?
-    public let strTags: String?
-    private let strMealThumb: String?
-    private let strYoutube: String?
-    let strIngredient1: String?
-    let strIngredient2: String?
-    let strIngredient3: String?
-    let strIngredient4: String?
-    let strIngredient5: String?
-    let strIngredient6: String?
-    let strIngredient7: String?
-    let strIngredient8: String?
-    let strIngredient9: String?
-    let strIngredient10: String?
-    let strIngredient11: String?
-    let strIngredient12: String?
-    let strIngredient13: String?
-    let strIngredient14: String?
-    let strIngredient15: String?
-    let strIngredient16: String?
-    let strIngredient17: String?
-    let strIngredient18: String?
-    let strIngredient19: String?
-    let strIngredient20: String?
-    let strMeasure1: String?
-    let strMeasure2: String?
-    let strMeasure3: String?
-    let strMeasure4: String?
-    let strMeasure5: String?
-    let strMeasure6: String?
-    let strMeasure7: String?
-    let strMeasure8: String?
-    let strMeasure9: String?
-    let strMeasure10: String?
-    let strMeasure11: String?
-    let strMeasure12: String?
-    let strMeasure13: String?
-    let strMeasure14: String?
-    let strMeasure15: String?
-    let strMeasure16: String?
-    let strMeasure17: String?
-    let strMeasure18: String?
-    let strMeasure19: String?
-    let strMeasure20: String?
-    private let strSource: String?
-    private let strImageSource: String?
-    public let strCreativeCommonsConfirmed : String?
-    public let dateModified: String?
-    public var id: Int{
-        return Int(idMeal)!
-    }
-    public var mealThumb:URL?{
-        if let str = strMealThumb{
-            guard let url = URL(string: str) else{
-               return nil
-            }
-            return url
-        }else{
-            return nil
-        }
-    }
-    public var youTube: URL?{
-        if let str = strYoutube{
-            guard let url = URL(string: str) else{
-               return nil
-            }
-            return url
-        }else{
-            return nil
-        }
+public struct DetailMealModel:  Identifiable{
+    public let id: Int
+    public let meal: String
+    public let drinkAlt: String
+    public let category: String
+    public let area: String
+    public let instructions : String
+    public let tags: String
+    public let thumb: String
+    public let yotube: String
+    public let src: String
+    public let imageSrc : String
+    public let ccc : String
+    public let date : String
+    public let mizanplas :[String:String]
+
+    
+    
+  
+    enum DessertKeys: String, CodingKey {
+        case id = "idMeal"
+        case meal = "strMeal"
+        case drinkAlt = "strDrinkAlternate"
+        case category = "strCategory"
+        case area = "strArea"
+        case instructions = "strInstructions"
+        case tags = "strTags"
+        case thumb = "strMealThumb"
+        case youtube = "strYoutube"
+        case src = "strSource"
+        case imageSrc = "strImageSource"
+        case ccc = "strCreativeCommonsConfirmed"
+        case date = "dateModified"
+        case ingredient1  = "strIngredient1"
+        case ingredient2  = "strIngredient2"
+        case ingredient3  = "strIngredient3"
+        case ingredient4  = "strIngredient4"
+        case ingredient5  = "strIngredient5"
+        case ingredient6  = "strIngredient6"
+        case ingredient7  = "strIngredient7"
+        case ingredient8  = "strIngredient8"
+        case ingredient9  = "strIngredient9"
+        case ingredient10 = "strIngredient10"
+        case ingredient11 = "strIngredient11"
+        case ingredient12 = "strIngredient12"
+        case ingredient13 = "strIngredient13"
+        case ingredient14 = "strIngredient14"
+        case ingredient15 = "strIngredient15"
+        case ingredient16 = "strIngredient16"
+        case ingredient17 = "strIngredient17"
+        case ingredient18 = "strIngredient18"
+        case ingredient19 = "strIngredient19"
+        case ingredient20 = "strIngredient20"
+        
+        case measure1  = "strMeasure1"
+        case measure2  = "strMeasure2"
+        case measure3  = "strMeasure3"
+        case measure4  = "strMeasure4"
+        case measure5  = "strMeasure5"
+        case measure6  = "strMeasure6"
+        case measure7  = "strMeasure7"
+        case measure8  = "strMeasure8"
+        case measure9  = "strMeasure9"
+        case measure10 = "strMeasure10"
+        case measure11 = "strMeasure11"
+        case measure12 = "strMeasure12"
+        case measure13 = "strMeasure13"
+        case measure14 = "strMeasure14"
+        case measure15 = "strMeasure15"
+        case measure16 = "strMeasure16"
+        case measure17 = "strMeasure17"
+        case measure18 = "strMeasure18"
+        case measure19 = "strMeasure19"
+        case measure20 = "strMeasure20"
+        
     }
     
-    public var mizanplas: [(String, String)]{
-        var arr : [(String,String)] = []
-        if let ingredient = strIngredient1{
-            if !ingredient.isEmpty{
-                if let measure = strMeasure1{
-                    arr.append((ingredient,measure))
-                }else{
-                    arr.append((ingredient, "TBD"))
-                }
-            }
-        }
-        if let ingredient = strIngredient2{
-            if !ingredient.isEmpty{
-                if let measure = strMeasure2{
-                    arr.append((ingredient,measure))
-                }else{
-                    arr.append((ingredient, "TBD"))
-                }
-            }
-        }
-        if let ingredient = strIngredient3{
-            if !ingredient.isEmpty{
-                if let measure = strMeasure3{
-                    arr.append((ingredient,measure))
-                }else{
-                    arr.append((ingredient, "TBD"))
-                }
-            }
-        }
-        if let ingredient = strIngredient4{
-            if !ingredient.isEmpty{
-                if let measure = strMeasure4{
-                    arr.append((ingredient,measure))
-                }else{
-                    arr.append((ingredient, "TBD"))
-                }
-            }
-        }
-        if let ingredient = strIngredient5{
-            if !ingredient.isEmpty{
-                
-                if let measure = strMeasure5{
-                    arr.append((ingredient,measure))
-                }else{
-                    arr.append((ingredient, "TBD"))
-                }
-            }
-        }
-        if let ingredient = strIngredient6{
-            if !ingredient.isEmpty{
-                
-                if let measure = strMeasure6{
-                    arr.append((ingredient,measure))
-                }else{
-                    arr.append((ingredient, "TBD"))
-                }
-            }
-        }
-        if let ingredient = strIngredient7{
-            if !ingredient.isEmpty{
-                if let measure = strMeasure7{
-                    arr.append((ingredient,measure))
-                }else{
-                    arr.append((ingredient, "TBD"))
-                }
-            }
-        }
-        if let ingredient = strIngredient8{
-            if !ingredient.isEmpty{
-                
-                if let measure = strMeasure8{
-                    arr.append((ingredient,measure))
-                }else{
-                    arr.append((ingredient, "TBD"))
-                }
-            }
-        }
-        if let ingredient = strIngredient9{
-            if !ingredient.isEmpty{
-                
-                if let measure = strMeasure9{
-                    arr.append((ingredient,measure))
-                }else{
-                    arr.append((ingredient, "TBD"))
-                }
-            }
-        }
-        if let ingredient = strIngredient10{
-            if !ingredient.isEmpty{
-                
-                if let measure = strMeasure10{
-                    arr.append((ingredient,measure))
-                }else{
-                    arr.append((ingredient, "TBD"))
-                }
-            }
-        }
-        if let ingredient = strIngredient11{
-            if !ingredient.isEmpty{
-                
-                if let measure = strMeasure11{
-                    arr.append((ingredient,measure))
-                }else{
-                    arr.append((ingredient, "TBD"))
-                }
-            }
-        }
-        if let ingredient = strIngredient12{
-            if !ingredient.isEmpty{
-                
-                if let measure = strMeasure12{
-                    arr.append((ingredient,measure))
-                }else{
-                    arr.append((ingredient, "TBD"))
-                }
-            }
-        }
-        if let ingredient = strIngredient13{
-            if !ingredient.isEmpty{
-                
-                if let measure = strMeasure13{
-                    arr.append((ingredient,measure))
-                }else{
-                    arr.append((ingredient, "TBD"))
-                }
-            }
-        }
-        if let ingredient = strIngredient14{
-            if !ingredient.isEmpty{
-                
-                if let measure = strMeasure14{
-                    arr.append((ingredient,measure))
-                }else{
-                    arr.append((ingredient, "TBD"))
-                }
-            }
-        }
-        if let ingredient = strIngredient15{
-            if !ingredient.isEmpty{
-                
-                if let measure = strMeasure15{
-                    arr.append((ingredient,measure))
-                }else{
-                    arr.append((ingredient, "TBD"))
-                }
-            }
-        }
-        if let ingredient = strIngredient16{
-            if !ingredient.isEmpty{
-                
-                if let measure = strMeasure16{
-                    arr.append((ingredient,measure))
-                }else{
-                    arr.append((ingredient, "TBD"))
-                }
-            }
-        }
-        if let ingredient = strIngredient17{
-            if !ingredient.isEmpty{
-                
-                if let measure = strMeasure17{
-                    arr.append((ingredient,measure))
-                }else{
-                    arr.append((ingredient, "TBD"))
-                }
-            }
-        }
-        if let ingredient = strIngredient18{
-            if !ingredient.isEmpty{
-                
-                if let measure = strMeasure18{
-                    arr.append((ingredient,measure))
-                }else{
-                    arr.append((ingredient, "TBD"))
-                }
-            }
-        }
-        if let ingredient = strIngredient19{
-            if !ingredient.isEmpty{
-                
-                if let measure = strMeasure19{
-                    arr.append((ingredient,measure))
-                }else{
-                    arr.append((ingredient, "TBD"))
-                }
-            }
-        }
-        if let ingredient = strIngredient20{
-            if !ingredient.isEmpty{
-                
-                if let measure = strMeasure20{
-                    arr.append((ingredient,measure))
-                }else{
-                    arr.append((ingredient, "TBD"))
-                }
-            }
-        }
-        return arr
-    }
-    public var allTags : [String]{
-        if let tags = strTags {
-            return tags.split(separator: ",") as! [String]
-        }
-        return[]
-    }
+ 
+    
+    
+ 
+//    public var allTags : [String]{
+//        if let tags = strTags {
+//            return tags.split(separator: ",") as! [String]
+//        }
+//        return[]
+//    }
 }
