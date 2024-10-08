@@ -15,12 +15,12 @@ public class DessertViewModel: ObservableObject{
     @Published public var ms  : [MealModel] = []
     public var currentIdx = 0
     public var allList : [String] = []
+    var apiService = DessertAPISerivice()
     //load all the desert Name only
     public init() {
         print("Init DessertVM")
         Task(priority: .high){
-            let apimanager = APIManager.shared
-            if let list = await apimanager.reteriveAllDessert(){
+            if let list = await apiService.reteriveAllDessert(){
                 await MainActor.run(body: {
                     print("DessertVM: Reterived all dessert list")
                     self.ms = list.sorted { $0.strMeal! < $1.strMeal!}
