@@ -11,15 +11,15 @@ import SwiftUI
 enum APIError : Error{
     case requestError(url : String)
     case decodeError(decodableType: String)
-    case networkError(url : String)
+    case networkError(url : String, detail:String)
     case imageDecodeError(url: String)
     
     var description: String?{
         switch self{
             case .decodeError(decodableType: let type):
                 return "Error when decoding type \(type)"
-            case .networkError(url: let url):
-                return "NetWork Error when making request at: \(url)"
+            case .networkError(url: let url, detail :let detail):
+                return "NetWork Error when making request at: \(url)\n Detail:\(detail)"
             case .requestError(url: let url):
                 return "Response Error when making request at: \(url)"
             case .imageDecodeError(url: let url):
@@ -31,6 +31,26 @@ enum APIError : Error{
 
 
 public class APIManager {
+    //catches network errors and conduct retry,
+    //return nil when no more trials and for other logical non-network layer errors.
+    public static func retry<T>(times: Int,task: @escaping () async throws-> T) async throws -> T?{
+        for _ in 0..<times{
+            do{
+                return try await task();
+            }catch let error as APIError{
+                switch error{
+                    case .networkError(url: let url, detail: let detail):
+                        try await Task.sleep(nanoseconds: 1000)
+                        continue
+                    default:
+                        return nil
+                }
+                
+            }
+        }
+        return nil
+    }
+    
     public static func downloadDecodable<T: Decodable>( url: URL) async throws -> T{
         let session = URLSession.shared
         do{
@@ -48,7 +68,7 @@ public class APIManager {
         }catch let error as APIError{
             throw error
         } catch{
-            throw APIError.networkError(url: url.absoluteString)
+            throw APIError.networkError(url: url.absoluteString,detail: error.localizedDescription)
         }
         
     }
@@ -61,15 +81,22 @@ public class APIManager {
     public static func downloadImage(url: URL) async throws-> Image {
         
         let session = URLSession.shared
-        let (imageData, response) = try await session.data(from: url)
         
-        guard let response = response as? HTTPURLResponse , response.statusCode >= 200 && response.statusCode < 400 else{
-            throw APIError.requestError(url: url.absoluteString)
+        do{
+            let (imageData, response) = try await session.data(from: url)
+            
+            guard let response = response as? HTTPURLResponse , response.statusCode >= 200 && response.statusCode < 400 else{
+                throw APIError.requestError(url: url.absoluteString)
+            }
+            guard let uiImage = UIImage(data: imageData) else{
+                throw APIError.imageDecodeError(url: url.absoluteString)
+            }
+            return Image(uiImage: uiImage)
+        }catch let error as APIError{
+            throw error
+        } catch{
+            throw APIError.networkError(url: url.absoluteString,detail: error.localizedDescription)
         }
-        guard let uiImage = UIImage(data: imageData) else{
-            throw APIError.imageDecodeError(url: url.absoluteString)
-        }
-        return Image(uiImage: uiImage)
 
         
 //        let session = URLSession.shared
