@@ -7,7 +7,7 @@ import SwiftUI
 import FetchDessertPkg
 
 struct DessertView: View {
-    @StateObject var bakery = DessertViewModel()
+    @StateObject var bakery = DessertAsyncViewModel()
     var body: some View {
         NavigationView{
             RoundedRectangle(cornerSize: CGSize(width: 20, height: 10)).foregroundStyle(Color.white).ignoresSafeArea().overlay{

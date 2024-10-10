@@ -8,7 +8,10 @@
 import Foundation
 import SwiftUI
 
-enum APIError : Error{
+
+
+
+enum APIError : LocalizedError{
     case requestError(url : String)
     case decodeError(decodableType: String)
     case networkError(url : String, detail:String)
@@ -27,6 +30,7 @@ enum APIError : Error{
         }
     }
 }
+
 
 
 

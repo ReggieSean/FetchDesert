@@ -9,16 +9,14 @@ import Foundation
 
 //Viewmodel that is responsible for publishing models to populate its view
 //assume that there will be a small amount of desert
-//DessertViewModel will not to load all assets of all DetailDesertModel at the begining.
-@MainActor
-public class DessertViewModel: ObservableObject{
+//DessertViewModel will not load all assets for all DetailDesertModel at the begining.
+public class DessertAsyncViewModel : DessertViewModel{
     @Published public var ms  : [MealModel] = []
-    public var currentIdx = 0
-    public var allList : [String] = []
-    var apiService = DessertAPISerivice()
+    var apiService : DessertAPIAsyncSerivice
     //load all the desert Name only
-    public init() {
+    public init(apiService : DessertAPIAsyncSerivice = DessertAPIAsyncSerivice()) {
         print("Init DessertVM")
+        self.apiService = apiService
         Task(priority: .high){
             if let list = await apiService.reteriveAllDessert(){
                 await MainActor.run(body: {
@@ -31,7 +29,10 @@ public class DessertViewModel: ObservableObject{
         }
     }
     
-    
     public func loadMoreDessert() async throws -> (){
     }
+}
+
+protocol DessertViewModel: ObservableObject{
+    var ms :[MealModel] {get}
 }

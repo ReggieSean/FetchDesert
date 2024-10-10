@@ -7,8 +7,22 @@
 
 import Foundation
 
-class DessertAPISerivice{
+//a protocol for class type service layer objects to init service whenever
+protocol DessertAPIService : AnyObject{
+    var session : URLSession? {get set}
+}
 
+//a default urlsession initializer when not mocking
+extension DessertAPIService{
+    func initService(configuration: URLSessionConfiguration = URLSessionConfiguration.default){
+        session = URLSession(configuration: configuration)
+    }
+}
+
+public class DessertAPIAsyncSerivice: DessertAPIService{
+    var session: URLSession?;
+    public init(){}
+    
     public func reteriveAllDessert() async -> [MealModel]?{
         let session = URLSession.shared
         do{
@@ -34,4 +48,15 @@ class DessertAPISerivice{
         }
         return nil
     }
+}
+
+class DessertAPICombineService : DessertAPIService{
+    var session: URLSession?
+    
+    init(){}
+    
+    func addSubscriber(){
+        
+    }
+    
 }

@@ -3,12 +3,11 @@ import XCTest
 
 final class FetchDessertPkgTests: XCTestCase {
     func testDownloadDesserts()async{
-        let apimanger = APIManager.shared
         let session = URLSession.shared
         do{
-            let (data, response) = try await session.data(from: apimanger.allMealAPI(catagory: "Dessert")!)
+            let (data, response) = try await session.data(from: APIManager.allMealAPI(catagory: "Dessert")!)
             guard let response = response as? HTTPURLResponse , response.statusCode >= 200 && response.statusCode < 400 else{
-                throw APIError.responseCastError("testDownload response")
+                throw APIError.requestError(url: "testDownload response")
             }
             XCTAssertTrue(response.statusCode == 200)
             print("data byte count: \(data.count)")
@@ -46,20 +45,20 @@ final class FetchDessertPkgTests: XCTestCase {
         waitForExpectations(timeout: 10, handler: nil) // Timeout in 10 seconds
     }
     func fetchDessertResponse(completion : @escaping(Result<[DetailMealModel], Error>) -> Void){
-        URLSession.shared.dataTask(with: APIManager.shared.mealPrep(mealID: 52768)!) { resData , response , error in
+        URLSession.shared.dataTask(with: APIManager.mealPrep(mealID: 52768)!) { resData , response , error in
             if let error = error{
                 completion(.failure(error))
                 return
             }
             print("")
             guard let dat = resData else {
-                completion(.failure(APIError.responseCastError("response data is nil")))
+                completion(.failure(APIError.requestError(url: "response data is nil")))
                 return
             }
             print("")
             
             guard let meals = try? JSONDecoder().decode(DetailMealResponse.self, from: dat)else {
-                completion(.failure(APIError.decodeError("decoding failed")))
+                completion(.failure(APIError.decodeError(decodableType: String(describing:DetailMealModel.self))))
                 return
             }
             print(meals.meals)
@@ -70,12 +69,11 @@ final class FetchDessertPkgTests: XCTestCase {
     }
     
     func testDownloadSingleDessert() async{
-        let apimanger = APIManager.shared
         let session = URLSession.shared
         do{
-            let (data, response) = try await session.data(from: apimanger.mealPrep(mealID: 52768)!)
+            let (data, response) = try await session.data(from: APIManager.mealPrep(mealID: 52768)!)
             guard let response = response as? HTTPURLResponse , response.statusCode != 200 else{
-                throw APIError.responseCastError("testDownload response")
+                throw APIError.requestError(url:"testDownload response")
             }
             XCTAssertTrue(response.statusCode == 200)
             print("data byte count: \(data.count)")
@@ -90,12 +88,11 @@ final class FetchDessertPkgTests: XCTestCase {
     func testDownloadSingleDessertImage() async{
         let testedID = 52768
         //let testedImageURL = "https:\/\/www.themealdb.com\/images\/media\/meals\/1549542877.jpg"
-        let apimanger = APIManager.shared
         let session = URLSession.shared
         do{
-            let (data, response) = try await session.data(from: apimanger.mealPrep(mealID: testedID)!)
+            let (data, response) = try await session.data(from: APIManager.mealPrep(mealID: testedID)!)
             guard let response = response as? HTTPURLResponse , response.statusCode >= 200 && response.statusCode < 400 else{
-                throw APIError.responseCastError("testDownload response")
+                throw APIError.requestError(url: "testDownload response")
             }
             XCTAssertTrue(response.statusCode == 200)
             print("data byte count: \(data.count)")
@@ -122,12 +119,11 @@ final class FetchDessertPkgTests: XCTestCase {
     func testCastWithNilValues() async{
         let testedID = 52990 // item with weird cast error
         //let testedImageURL = "https:\/\/www.themealdb.com\/images\/media\/meals\/1549542877.jpg"
-        let apimanger = APIManager.shared
         let session = URLSession.shared
         do{
-            let (data, response) = try await session.data(from: apimanger.mealPrep(mealID: testedID)!)
+            let (data, response) = try await session.data(from: APIManager.mealPrep(mealID: testedID)!)
             guard let response = response as? HTTPURLResponse , response.statusCode >= 200 && response.statusCode < 400 else{
-                throw APIError.responseCastError("testDownload response")
+                throw APIError.requestError(url:"testDownload response")
             }
             XCTAssertTrue(response.statusCode == 200)
             print("data byte count: \(data.count)")
