@@ -14,16 +14,29 @@ extension String {
 }
 
 
-public struct MealResponse: Codable{
+public struct MealResponse: Decodable{
     public let meals : [MealModel]
 }
 
-public struct MealModel : Codable, Identifiable{
+public struct MealModel : Identifiable{
     
-    public let idMeal : String
-    public let strMeal: String?
-    public let strMealThumb: URL?
-    public var id: Int{
-        return Int(idMeal)!
+    public let id: Int
+    public let meal: String
+    public let thumb : String
+}
+
+extension MealModel: Decodable{
+    enum Keys: String, CodingKey{
+        case id = "idMeal"
+        case meal = "strMeal"
+        case thumb = "strMealThumb"
+    }
+    
+    public init( from decoder: any Decoder) throws{
+        let container = try decoder.container(keyedBy: Keys.self)
+        self.id = Int(try container.decode(String.self, forKey: .id)) ?? 0
+        self.meal =  try container.decodeIfPresent(String.self, forKey: .meal) ?? ""
+        self.thumb =  try container.decodeIfPresent(String.self, forKey: .thumb) ?? ""
+
     }
 }

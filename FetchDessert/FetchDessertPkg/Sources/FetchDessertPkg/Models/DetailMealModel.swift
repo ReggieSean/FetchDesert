@@ -52,11 +52,11 @@ extension DetailMealModel: Decodable{
         
     }
 }
-extension DetailMealModel: Encodable{
-    public func encode(to encoder: any Encoder) throws {
-        
-    }
-}
+//extension DetailMealModel: Encodable{
+//    public func encode(to encoder: any Encoder) throws {
+//        
+//    }
+//}
 
  
 //DesertModel for holding meal information

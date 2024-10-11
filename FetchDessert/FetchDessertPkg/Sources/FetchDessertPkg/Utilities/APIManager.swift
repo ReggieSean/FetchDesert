@@ -14,7 +14,7 @@ import SwiftUI
 enum APIError : LocalizedError{
     case requestError(url : String)
     case decodeError(decodableType: String)
-    case networkError(url : String, detail:String)
+    case networkError(url : String, detail:String) //network layer error that needs retry
     case imageDecodeError(url: String)
     
     var description: String?{
@@ -44,6 +44,7 @@ public class APIManager {
             }catch let error as APIError{
                 switch error{
                     case .networkError(url: let url, detail: let detail):
+                        print("NetworkError: \(url)\nDetail:\(detail)")
                         try await Task.sleep(nanoseconds: 1000)
                         continue
                     default:
@@ -55,8 +56,7 @@ public class APIManager {
         return nil
     }
     
-    public static func downloadDecodable<T: Decodable>( url: URL) async throws -> T{
-        let session = URLSession.shared
+    public static func downloadDecodable<T: Decodable>( url: URL, session: URLSession) async throws -> T{
         do{
             let (data, response) = try await session.data(from: url)
             guard let response = response as? HTTPURLResponse , response.statusCode >= 200 && response.statusCode < 400 else{
@@ -82,9 +82,7 @@ public class APIManager {
     
     
     
-    public static func downloadImage(url: URL) async throws-> Image {
-        
-        let session = URLSession.shared
+    public static func downloadImage(url: URL, session: URLSession ) async throws-> Image {
         
         do{
             let (imageData, response) = try await session.data(from: url)

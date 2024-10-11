@@ -7,10 +7,11 @@
 
 import Foundation
 
-//a protocol for class type service layer objects to init service whenever
+//a protocol for  service layer class types to init service whenever
 protocol DessertAPIService : AnyObject{
     var session : URLSession? {get set}
 }
+
 
 //a default urlsession initializer when not mocking
 extension DessertAPIService{
@@ -20,13 +21,13 @@ extension DessertAPIService{
 }
 
 public class DessertAPIAsyncSerivice: DessertAPIService{
-    var session: URLSession?;
+    var session: URLSession?
     public init(){}
     
     public func reteriveAllDessert() async -> [MealModel]?{
-        let session = URLSession.shared
         do{
-            var ml : MealResponse =  try await APIManager.downloadDecodable(url:  APIManager.allMealAPI(catagory: "Dessert")!)
+            
+            let ml : MealResponse =  try await APIManager.downloadDecodable(url:  APIManager.allMealAPI(catagory: "Dessert")!, session: session ?? URLSession.shared)
             return ml.meals
         } catch let Error{
             print(Error)
@@ -34,11 +35,10 @@ public class DessertAPIAsyncSerivice: DessertAPIService{
         return nil
     }
     
-    public func reteriveDesert(id : Int) async -> DetailMealModel?{
-        let session = URLSession.shared
+    public func reteriveDessert(id : Int) async -> DetailMealModel?{
         
         do{
-            var dml : DetailMealResponse =  try await APIManager.downloadDecodable(url:  APIManager.allMealAPI(catagory: "Dessert")!)
+            let dml : DetailMealResponse =  try await APIManager.downloadDecodable(url:  APIManager.mealPrep(mealID: id)!, session: session ?? URLSession.shared)
             return dml.meals[0]
         } catch let Error{
             #if DEBUG
@@ -48,6 +48,16 @@ public class DessertAPIAsyncSerivice: DessertAPIService{
         }
         return nil
     }
+    
+}
+
+
+class DessertAPIMockSerivce: DessertAPIService{
+    var session: URLSession?
+    
+    init(){}
+    
+    
 }
 
 class DessertAPICombineService : DessertAPIService{

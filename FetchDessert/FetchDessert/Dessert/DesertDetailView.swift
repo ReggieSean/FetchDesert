@@ -11,9 +11,10 @@ import FetchDessertPkg
 //all fields will be downloaded  and passed in at previous view
 struct DessertDetailView: View {
     let dessertDetail : DetailMealModel
+    let vm : DessertAsyncDetailViewModel
     var thumbImage : Image?
-    public init(dessertDetail: DetailMealModel){
-        self.dessertDetail = dessertDetail
+    public init(dessert: MealModel){
+        self.dessertDetail = APIManager. dessertDetail
         #if DEBUG
         print("dessert \(String(describing: dessertDetail.meal)) detail init")
         #endif

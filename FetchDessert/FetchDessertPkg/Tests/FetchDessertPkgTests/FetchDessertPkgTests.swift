@@ -17,10 +17,10 @@ final class FetchDessertPkgTests: XCTestCase {
             //let response = try decoder.decode(Decodable.Type, from:data
             let mealResponse = try decoder.decode(MealResponse.self, from: data)
             let meal = mealResponse.meals.first{ meal in
-                return meal.strMeal == "Apam balik"
+                return meal.meal == "Apam balik"
             }
             XCTAssertTrue(meal?.id == testedID)
-            if let thumb = meal?.strMealThumb{
+            if let thumb = meal?.thumb{
                 print(thumb)
             }
             return
