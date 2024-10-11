@@ -14,9 +14,7 @@ public class DessertAPIService{
 }
 
 
-//a default urlsession initializer when not mocking
-extension DessertAPIService{
-}
+
 
 public class DessertAPIAsyncService: DessertAPIService{
     var session: URLSession?

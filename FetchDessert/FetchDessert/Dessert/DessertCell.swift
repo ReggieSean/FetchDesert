@@ -39,7 +39,6 @@ struct DessertCell : View{
                     }
                 }
                 
-//                RoundedRectangle(cornerSize: CGSize(width: 20, height: 20)).frame(width: 150,height: 150).opacity(1).foregroundStyle(Color.yellow)
                 //halfish icon size overlay title
                 
             }
