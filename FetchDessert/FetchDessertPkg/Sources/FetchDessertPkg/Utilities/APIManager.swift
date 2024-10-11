@@ -82,8 +82,7 @@ public class APIManager {
     
     
     
-    public static func downloadImage(url: URL, session: URLSession ) async throws-> Image {
-        
+    public static func downloadImage(url: URL, session: URLSession = URLSession.shared ) async throws-> Image {
         do{
             let (imageData, response) = try await session.data(from: url)
             

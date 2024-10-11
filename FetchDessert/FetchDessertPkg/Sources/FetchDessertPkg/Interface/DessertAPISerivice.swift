@@ -7,24 +7,21 @@
 
 import Foundation
 
-//a protocol for  service layer class types to init service whenever
-protocol DessertAPIService : AnyObject{
-    var session : URLSession? {get set}
+//a class for allowing a single type of viewmodel to accept a common
+//type for multiple service types.
+public class DessertAPIService{
+    public init(){}
 }
 
 
 //a default urlsession initializer when not mocking
 extension DessertAPIService{
-    func initService(configuration: URLSessionConfiguration = URLSessionConfiguration.default){
-        session = URLSession(configuration: configuration)
-    }
 }
 
-public class DessertAPIAsyncSerivice: DessertAPIService{
+public class DessertAPIAsyncService: DessertAPIService{
     var session: URLSession?
-    public init(){}
     
-    public func reteriveAllDessert() async -> [MealModel]?{
+    public func retreiveAllDessert() async -> [MealModel]?{
         do{
             
             let ml : MealResponse =  try await APIManager.downloadDecodable(url:  APIManager.allMealAPI(catagory: "Dessert")!, session: session ?? URLSession.shared)
@@ -35,19 +32,7 @@ public class DessertAPIAsyncSerivice: DessertAPIService{
         return nil
     }
     
-    public func reteriveDessert(id : Int) async -> DetailMealModel?{
-        
-        do{
-            let dml : DetailMealResponse =  try await APIManager.downloadDecodable(url:  APIManager.mealPrep(mealID: id)!, session: session ?? URLSession.shared)
-            return dml.meals[0]
-        } catch let Error{
-            #if DEBUG
-            print(Error)
-            print(Error.localizedDescription)
-            #endif
-        }
-        return nil
-    }
+   
     
 }
 
@@ -55,15 +40,12 @@ public class DessertAPIAsyncSerivice: DessertAPIService{
 class DessertAPIMockSerivce: DessertAPIService{
     var session: URLSession?
     
-    init(){}
-    
     
 }
 
 class DessertAPICombineService : DessertAPIService{
     var session: URLSession?
     
-    init(){}
     
     func addSubscriber(){
         

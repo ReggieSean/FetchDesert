@@ -10,28 +10,22 @@ import FetchDessertPkg
 
 //all fields will be downloaded  and passed in at previous view
 struct DessertDetailView: View {
-    let dessertDetail : DetailMealModel
-    let vm : DessertAsyncDetailViewModel
-    var thumbImage : Image?
-    public init(dessert: MealModel){
-        self.dessertDetail = APIManager. dessertDetail
-        #if DEBUG
-        print("dessert \(String(describing: dessertDetail.meal)) detail init")
-        #endif
-        
+    @StateObject var vm : DetailDessertViewModel
+    public init( apiService: DetailDessertAPISerivce){
+        _vm = StateObject(wrappedValue: DetailDessertViewModel(apiService: apiService))
     }
     
     var body: some View {
         ZStack{
             RoundedRectangle(cornerSize: CGSize(width: 0, height: 0)).frame(minWidth: 300 ,minHeight: 300, alignment: .center).foregroundStyle(Color.white).overlay{
                 VStack(spacing:0){
-                    if let img = thumbImage{
+                    if let img = vm.thumb{
                     //image will only fill the top1/3  of canvas and the rests for form
                         img.resizable().scaledToFill().overlay{
                             VStack{
                                 Spacer()
                                 HStack{
-                                    Text(dessertDetail.meal).font(.title).foregroundStyle(Color.white).padding()
+                                    Text(vm.model?.meal ?? "").font(.title).foregroundStyle(Color.white).padding()
                                     Spacer()
                                 }
                             }
@@ -41,7 +35,7 @@ struct DessertDetailView: View {
                         RoundedRectangle(cornerSize: CGSize(width: 0, height: 0)).fill(LinearGradient(gradient:Gradient(colors:[Color.yellow,Color.yellow,Color.clear]), startPoint: .top, endPoint: .bottom)).frame( height: 300).overlay{
                             VStack{
                                 Spacer()
-                                Text(dessertDetail.meal).font(.title)
+                                Text(vm.model?.meal ?? "").font(.title)
                             }
                         }
                     }
@@ -55,12 +49,14 @@ struct DessertDetailView: View {
                         }
                 }
             }
-        }.ignoresSafeArea()
+        }.ignoresSafeArea().task{
+            vm.initPage()
+        }
     }
     
     @ViewBuilder private var ingredients: some View{
                 Section(header: Text("Ingredaients").font(.body).padding(0)){
-                    ForEach(dessertDetail.mizanplas.sorted(by: { $0.key < $1.key }), id: \.key){ key, value in
+                    ForEach(vm.model?.mizanplas.sorted(by: { $0.key < $1.key }) ?? [], id: \.key){ key, value in
                         HStack(alignment: .center){
                             Text((key))
                             Text((value))
@@ -71,44 +67,44 @@ struct DessertDetailView: View {
     
     @ViewBuilder private var instructions: some View{
             Section(header: Text("Instructions").font(.body).padding(0)){
-                Text(dessertDetail.instructions)
+                Text(vm.model?.instructions ?? "")
             }
     }
     
     @ViewBuilder private var drinkAlternative: some View{
         Section(header: Text("Drink Alternate").font(.body).padding(0)){
-            Text(dessertDetail.drinkAlt)
+            Text(vm.model?.drinkAlt ?? "")
         }
     }
 
     @ViewBuilder private var area: some View{
             Section(header: Text("Dessert region:").font(.body).padding(0)){
-                Text(dessertDetail.area)
+                Text(vm.model?.area ?? "")
                 
             }
     }
 
     @ViewBuilder private var category: some View{
             Section(header: Text("Category:").font(.body).padding(0)){
-                Text(dessertDetail.category)
+                Text(vm.model?.category ?? "")
             }
     }
     
     @ViewBuilder private var tags: some View{
             Section(header: Text("Tags:").font(.body).padding(0)){
-                Text(dessertDetail.tags)
+                Text(vm.model?.tags ?? "")
             }
     }
     
     @ViewBuilder private var youtube: some View{
             Section(header: Text("Link to Video:").font(.body).padding(0)){
-                Link("Open in Browser", destination: URL(string: dessertDetail.yotube)!)
+                Link("Open in Browser", destination: URL(string: vm.model?.yotube ?? "https://example.com")!)
             }
     }
     
     @ViewBuilder private var date: some View{
             Section(header: Text("Last Modified on:").font(.body).padding(0)){
-                Text(dessertDetail.date)
+                Text(vm.model?.date ?? "")
             }
     }
 
