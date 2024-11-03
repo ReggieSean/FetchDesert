@@ -11,6 +11,7 @@ import SwiftUI
 struct FetchDessertAltUIApp: App {
     var body: some Scene {
         WindowGroup {
+            MealView()
         }
     }
 }

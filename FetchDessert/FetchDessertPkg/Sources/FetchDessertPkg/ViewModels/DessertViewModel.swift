@@ -29,13 +29,30 @@ public class DessertViewModel : ObservableObject{
                 }
             }
         } else if let service = self.apiService as? DessertAPICombineService{
-           //TODO implement functions for Combine style of service interface
+            //TODO implement functions for Combine style of service interface
         }else{
             print("Init DessertVM Service failed ")
         }
     }
     
- 
+    public func getAllDesssert()async -> [MealModel]{
+        
+        if let service = self.apiService as? DessertAPIAsyncService{
+            if let list = await service.retreiveAllDessert(){
+                print("DessertVM: Reterived all dessert list")
+                let sortedList = list.sorted { $0.meal < $1.meal}
+                return sortedList
+            }else{
+                print("getAllDessert() : Failed to reterive list of All Dessert")
+            }
+        }else{
+            print("getAllDessert() : apiService is not DessertAPIAsyncService")
+        }
+        return []
+    }
+    
 }
+    
+ 
 
 

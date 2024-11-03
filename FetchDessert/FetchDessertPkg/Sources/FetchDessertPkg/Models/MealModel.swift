@@ -18,7 +18,7 @@ public struct MealResponse: Decodable{
     public let meals : [MealModel]
 }
 
-public struct MealModel : Identifiable{
+public struct MealModel : Identifiable, Hashable{
     
     public let id: Int
     public let meal: String
