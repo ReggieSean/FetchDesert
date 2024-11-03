@@ -20,7 +20,6 @@
 		228907AA2CD3CCDA007C8637 /* MealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228907A92CD3CCDA007C8637 /* MealView.swift */; };
 		228907AC2CD44008007C8637 /* FetchDessertPkg in Frameworks */ = {isa = PBXBuildFile; productRef = 228907AB2CD44008007C8637 /* FetchDessertPkg */; };
 		2289081C2CD716AE007C8637 /* DessertDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2289081B2CD716AE007C8637 /* DessertDetailView.swift */; };
-		2289081E2CD71A28007C8637 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2289081D2CD71A28007C8637 /* Category.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,7 +38,6 @@
 		228907A22CD3CBE5007C8637 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		228907A92CD3CCDA007C8637 /* MealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealView.swift; sourceTree = "<group>"; };
 		2289081B2CD716AE007C8637 /* DessertDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DessertDetailView.swift; sourceTree = "<group>"; };
-		2289081D2CD71A28007C8637 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,7 +124,6 @@
 				2289079B2CD3CBE3007C8637 /* FetchDessertAltUIApp.swift */,
 				2289079F2CD3CBE5007C8637 /* Assets.xcassets */,
 				228907A12CD3CBE5007C8637 /* Preview Content */,
-				2289081D2CD71A28007C8637 /* Category.swift */,
 			);
 			path = FetchDessertAltUI;
 			sourceTree = "<group>";
@@ -268,7 +265,6 @@
 				2289079C2CD3CBE3007C8637 /* FetchDessertAltUIApp.swift in Sources */,
 				228907AA2CD3CCDA007C8637 /* MealView.swift in Sources */,
 				2289081C2CD716AE007C8637 /* DessertDetailView.swift in Sources */,
-				2289081E2CD71A28007C8637 /* Category.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

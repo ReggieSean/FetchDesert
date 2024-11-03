@@ -18,40 +18,62 @@ extension View {
 
 
 struct MealView: View {
-    @StateObject var mealVM : DessertViewModel
+    @StateObject var mealVM : MealViewModel
         
-    @State var category : Category? = .dessert
+    @State var category : MealCategory?
     @State var paths = [String]()
     @State var selectedMeal : MealModel?
+   
+    init(mealVM: MealViewModel,
+         category: MealCategory = .dessert,
+         paths: [String] = [String](),
+         selectedMeal: MealModel? = nil) {
+        self._mealVM = StateObject(wrappedValue: mealVM )
+        self.category = category
+        self.paths = paths
+        self.selectedMeal = selectedMeal
+    }
+    
     
     var body: some View {
         //splitview so more categories can be added
         NavigationSplitView{
-            List(Category.allCases, selection: $category){category in
+            List(MealCategory.allCases, selection: $category){category in
                 NavigationLink(category.localizedName){
                     Text("\(category.localizedName)")
                 }.onSubmit {
                     switch category{
                         case .dessert:
-                            _mealVM = StateObject(wrappedValue:  DessertViewModel(apiService: DessertAPIAsyncService()))
+                            mealVM.changeBehavior(specificVMBehavior: BehaviorFactory.getVMBehavior(category: .dessert))
+                            //mealVM.populateMS()
                     }
                 }
             }.navigationTitle("Categories")
         } detail:{
-            NavigationStack(path:$paths){
-                List(mealVM.ms, selection:  $selectedMeal){ dessert in
-                    NavigationLink(value: dessert){
-                        DessertDetailView()
-                    }
+            if mealVM.ms.isEmpty{
+                HStack{
+                    Text("There is no")
+                    Text(category!.localizedName)
                 }
-            }.navigationTitle(category!.localizedName)
+            }else{
+                NavigationStack(path:$paths){
+                    List(mealVM.ms, selection:  $selectedMeal){ dessert in
+                        NavigationLink(value: dessert){
+                            DessertDetailView()
+                        }
+                    }
+                }.navigationTitle(category?.localizedName ?? "")
+            }
         }
+//        .onAppear(perform: {
+//            mealVM.populateMS()
+//        })
     }
     
 }
     
 
 #Preview {
-    MealView()
+    MealView(mealVM: MealViewModel(specificVMBehavior: BehaviorFactory.getVMBehavior(category: .dessert)))
 }
 

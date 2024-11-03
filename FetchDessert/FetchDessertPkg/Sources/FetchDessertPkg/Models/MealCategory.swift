@@ -8,13 +8,13 @@
 import Foundation
 import SwiftUI
 
-enum Category: Int, CaseIterable, Identifiable {
+public enum MealCategory: Int, CaseIterable, Identifiable {
     case dessert
    
 
-    var id: Int { rawValue }
+    public var id: Int { rawValue }
 
-    var localizedName: LocalizedStringKey {
+    public var localizedName: LocalizedStringKey{
         switch self {
             case .dessert:
                 return "Dessert"

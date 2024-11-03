@@ -23,7 +23,7 @@ public class DetailDessertViewModel: ObservableObject{
         if let service = apiService as? DetailDessertAsyncSerivice{
             Task(priority: .high){
                 if let model = await service.reteriveDessert(){
-                    let img = await service .retreiveImage()
+                    let img = await service.retreiveImage()
                     await MainActor.run(body: {
                         self.thumb = img
                         self.model = model

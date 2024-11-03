@@ -10,10 +10,16 @@ import Foundation
 //Viewmodel that is responsible for publishing models to populate its view
 //assume that there will be a small amount of desert
 //DessertViewModel will not load all assets for all DetailDesertModel at the begining.
-public class DessertViewModel : ObservableObject{
+public class DessertAccessBehavior : MealAccessBehavior, ObservableObject  {
+    
+    
+    //this function still works as a part of DessertVM in FetchDessert
     @Published public var ms  : [MealModel] = []
+    
     public var apiService : DessertAPIService
     //load all the desert Name only
+   
+    //this function still works as a part of DessertVM in FetchDessert
     public init(apiService : DessertAPIService ) {
         
         self.apiService = apiService
@@ -35,7 +41,8 @@ public class DessertViewModel : ObservableObject{
         }
     }
     
-    public func getAllDesssert()async -> [MealModel]{
+    //common behavior function for MealViewModel
+    public func getAllMeals() async -> [MealModel]{
         
         if let service = self.apiService as? DessertAPIAsyncService{
             if let list = await service.retreiveAllDessert(){

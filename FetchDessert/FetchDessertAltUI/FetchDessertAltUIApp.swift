@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import FetchDessertPkg
 
 @main
 struct FetchDessertAltUIApp: App {
     var body: some Scene {
         WindowGroup {
-            MealView()
+            MealView(mealVM: MealViewModel(specificVMBehavior: DessertAccessBehavior(apiService: DessertAPIAsyncService())))
         }
     }
 }
